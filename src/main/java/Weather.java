@@ -1,4 +1,3 @@
-//comment
 
 import java.util.Iterator;
 

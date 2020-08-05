@@ -7,7 +7,7 @@ public class WeatherResponse {
 	private HttpResponse<String> apiCurrWeather;
 	private HttpResponse<String> apiForecastWeather;
 	private static final String urlCurrent = "http://api.openweathermap.org/data/2.5/weather";
-	private static final String urlForecast = "http://api.openweathermap.org/data/2.5/forecast/daily";
+	private static final String urlForecast = "https://api.openweathermap.org/data/2.5/onecall";
 	private static final String apiKey = "98b9c50a1756b6f643df39a665fcf18b";
 	
 	public WeatherResponse(String location) 
@@ -33,10 +33,10 @@ public class WeatherResponse {
 		throws UnirestException {
 		
 		HttpResponse<String> response = Unirest.get(urlForecast)
-				.queryString("q", query)
-				.queryString("cnt", 7)
+				.queryString("lat", "33.441792")
+				.queryString("lon", "-94.037689")
+				.queryString("exclude", "hourly,daily")
 				.queryString("appid", apiKey)
-				.queryString("units", "imperial")
 				.asString();
 		
 		return response;

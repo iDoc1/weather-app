@@ -8,7 +8,7 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 
 public class WeatherMain {
 
-	public static void main(String[] args) 
+	//public static void main(String[] args) 
 			throws UnirestException, IOException, GeoIp2Exception, ParseException {
 		
 		System.out.println("Follow the prompts to see weather information for any city.\n");		
