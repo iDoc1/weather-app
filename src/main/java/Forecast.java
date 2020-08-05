@@ -1,3 +1,5 @@
+//test comment
+
 import kong.unirest.HttpResponse;
 
 //Subclass of Weather. Eliminates wind speed field, adds precip type and quantity fields
