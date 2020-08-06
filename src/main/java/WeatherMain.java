@@ -1,3 +1,6 @@
+//add support for geographic coordinates using geocoder api
+//get rid of huge database for IP address lookup
+
 import java.util.*;
 
 import org.json.simple.parser.ParseException;
@@ -8,14 +11,14 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 
 public class WeatherMain {
 
-	//public static void main(String[] args) 
+	public static void main(String[] args) 
 			throws UnirestException, IOException, GeoIp2Exception, ParseException {
 		
 		System.out.println("Follow the prompts to see weather information for any city.\n");		
 		System.out.println("Choose one of the following options by entering the option number:");
-		System.out.println("\tOption 1: Current weather by city/state (US only)");
-		System.out.println("\tOption 2: Current weather by city/country");
-		System.out.println("\tOption 3: Current weather by your current location");
+		System.out.println("\tOption 1: Weather by city/state (US only)");
+		System.out.println("\tOption 2: Weather by city/country");
+		System.out.println("\tOption 3: Weather by your current location");
 		System.out.print("\tChoose an option number: ");
 		
 		Scanner input = new Scanner(System.in);
@@ -42,17 +45,37 @@ public class WeatherMain {
 			location = getCurrLocation(currLocation);
 			System.out.println("\tIP Address: " + currLocation.getIpAdress());
 		}
+			
+		System.out.println("Choose an option to see current weather or 7 day forecast:");
+		System.out.println("\tOption 1: Current weather");
+		System.out.println("\tOption 2: 7 Day Forecast");
+		System.out.print("\tChoose an option number: ");
 		
-		Weather current = new Weather(location);
+		String queryType = input.nextLine().toLowerCase();
 		
-		if (current.getApiStatus() == 200) {
-			System.out.println("\tLocation: " + current.getLocation());
-			System.out.println("\tCurrent conditions: " + current.getConditions());
-			System.out.println("\tCurrent temperature: " + current.getTemp() + "\u00B0" + "F");
-			System.out.println("\tCurrent humidity: " + current.getHumidity() + "%");
-			System.out.println("\tCurrent wind speed: " + current.getWindSpeed() + " mph");				
+		while (!queryType.equals("1") && !queryType.equals("2")) {
+			System.out.print("\tNot a valid option number. Type number 1 or 2: ");
+			queryType = input.nextLine().toLowerCase();
+		}
+				
+		if (queryType.equals("1")) {
+			Weather current = new Weather(location);
+			
+			if (current.getApiStatus() == 200) {
+				System.out.println();
+				System.out.println(current.toString());
+			} else {
+				System.out.println("\tlocation not found");
+			}
 		} else {
-			System.out.println("\tlocation not found");
+			Forecast forecast = new Forecast(location);
+			
+			if (forecast.getApiStatus() == 200) {
+				System.out.println();
+				System.out.println(forecast.toString());
+			} else {
+				System.out.println("\tlocation not found");
+			}
 		}
 	}
 	

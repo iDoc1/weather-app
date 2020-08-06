@@ -14,22 +14,22 @@ public class Weather {
 	private String temp;
 	private String windSpeed;
 	private String humidity;
-	private String conditions;	
-	private HttpResponse<String> currWeather;
+	private String description;	
+	private HttpResponse<String> weatherCurrent;
 	private int apiStatus;
 	
 	public Weather(String location) 
 			throws UnirestException, ParseException {
 		
 		WeatherResponse current = new WeatherResponse(location);
-		currWeather = current.getCurrentWeather();
-		apiStatus = currWeather.getStatus();
+		weatherCurrent = current.getCurrentWeather();
+		apiStatus = weatherCurrent.getStatus();
 		
 		locationName = parseJson("name", null);
 		temp = parseJson("main", "temp");
 		windSpeed = parseJson("wind", "speed");
 		humidity = parseJson("main", "humidity");
-		conditions = parseJsonArray("weather", "description");
+		description = parseJsonArray("weather", "description");
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class Weather {
 		}
 		
 		JSONParser jsonParser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) jsonParser.parse(currWeather.getBody());
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherCurrent.getBody());
 		
 		if (key2 == null) {
 			return jsonObject.get(key1).toString();
@@ -66,7 +66,7 @@ public class Weather {
 		}
 		
 		JSONParser jsonParser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) jsonParser.parse(currWeather.getBody());
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherCurrent.getBody());
 		
 		JSONArray jsonArray = (JSONArray) jsonObject.get(key1);
 		Iterator<JSONObject> itr = jsonArray.iterator();
@@ -101,6 +101,14 @@ public class Weather {
 	}
 		
 	public String getConditions() {
-		return conditions;
+		return description;
+	}
+	
+	public String toString() {
+		return "\t" + "Location: " + locationName + "\n"
+				+ "\t" +  "Current Temp: " + temp + "\u00B0F" + "\n"
+				+ "\t" + "Wind speed: " + windSpeed + " mph" + "\n"
+				+ "\t" + "Humidity: " + humidity + "%" + "\n"
+				+ "\t" + "Description: " + description;
 	}
 }

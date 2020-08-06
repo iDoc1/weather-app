@@ -35,8 +35,9 @@ public class WeatherResponse {
 		HttpResponse<String> response = Unirest.get(urlForecast)
 				.queryString("lat", "33.441792")
 				.queryString("lon", "-94.037689")
-				.queryString("exclude", "hourly,daily")
+				.queryString("exclude", "current,hourly,minutely")
 				.queryString("appid", apiKey)
+				.queryString("units", "imperial")
 				.asString();
 		
 		return response;
