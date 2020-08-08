@@ -1,4 +1,6 @@
 
+import org.json.simple.parser.ParseException;
+
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
@@ -11,7 +13,7 @@ public class WeatherResponse {
 	private static final String apiKey = "98b9c50a1756b6f643df39a665fcf18b";
 	
 	public WeatherResponse(String location) 
-			throws UnirestException {
+			throws UnirestException, ParseException {
 		
 		apiCurrWeather = callCurrentWeather(location);
 		apiForecastWeather = callForecastWeather(location);
@@ -30,11 +32,13 @@ public class WeatherResponse {
 	}
 	
 	private HttpResponse<String> callForecastWeather(String query) 
-		throws UnirestException {
+		throws UnirestException, ParseException {
+
+		Geocode coords = new Geocode(query);
 		
 		HttpResponse<String> response = Unirest.get(urlForecast)
-				.queryString("lat", "33.441792")
-				.queryString("lon", "-94.037689")
+				.queryString("lat", coords.getLat())
+				.queryString("lon", coords.getLon())
 				.queryString("exclude", "current,hourly,minutely")
 				.queryString("appid", apiKey)
 				.queryString("units", "imperial")

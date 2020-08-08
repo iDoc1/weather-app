@@ -1,15 +1,9 @@
-//test comment
 
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
-import kong.unirest.HttpResponse;
-
-//Subclass of Weather. Eliminates wind speed field, adds precip type and quantity fields
-//Overloads weather class constructor
 
 public class ForecastDay {	
 	private String tempMax;
@@ -43,6 +37,7 @@ public class ForecastDay {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String parseJsonArray(String key1, String key2) {
 		
 		JSONArray jsonArray = (JSONArray) dailyWeather.get(key1);
@@ -98,14 +93,13 @@ public class ForecastDay {
 		return description;
 	}
 	
-	//prints individual forecast for this instance's day
 	public String toString() {
-		return  "\t" + "Max temp: " + tempMax + "\n"
-				+ "\t" + "Min temp: " + tempMin + "\n"
-				+ "\t" + "Humidity: " + humidity + "\n"
-				+ "\t" + "Wind speed: " + windSpeed + "\n"	
+		return  "\t" + "Max temp: " + tempMax + "\u00B0F" + "\n"
+				+ "\t" + "Min temp: " + tempMin + "\u00B0F" + "\n"
+				+ "\t" + "Humidity: " + humidity + "%" + "\n"
+				+ "\t" + "Wind speed: " + windSpeed + " mph" + "\n"	
 				+ "\t" + "Precip type: " + precipType + "\n"
-				+ "\t" + "Precip amount: " + precipAmount + "\n"
+				+ "\t" + "Precip amount: " + precipAmount + " mm" + "\n"
 				+ "\t" + "Description: " + description + "\n";
 	}
 }

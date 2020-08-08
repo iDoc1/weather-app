@@ -1,38 +1,43 @@
 import java.io.*;
-import java.net.InetAddress;
 import java.net.URL;
 
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 public class UserLocation {
-	private CityResponse response;
 	private String city;
+	private String state;
 	private String country;
 	private String ipAddress;
-	private static final String databaseFile = "src/main/resources/GeoLite2-City.mmdb";
 	
 	public UserLocation() 
-			throws IOException, GeoIp2Exception {
+			throws IOException, ParseException {
+		
 		ipAddress = setIP();
-		response = setResponse();		
+		setLocationFields();
+	}
 		
+	private void setLocationFields() 
+			throws ParseException {
 		
-		city = response.getCity().getName();
-		country = response.getCountry().getName();
+		HttpResponse<String> response = 
+				Unirest.get("https://ipapi.co/" + ipAddress + "/json/").asString();
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(response.getBody());
+		
+		city = jsonObject.get("city").toString();
+		state = jsonObject.get("region_code").toString();
+		country = jsonObject.get("country").toString();
 	}
 	
-	private CityResponse setResponse() 
-			throws IOException, GeoIp2Exception {
-		File database = new File(databaseFile);
-		DatabaseReader dbReader = new DatabaseReader.Builder(database).build();
+	private String setIP() 
+			throws IOException {
 		
-		InetAddress address = InetAddress.getByName(ipAddress);
-		return dbReader.city(address);
-	}
-	
-	private String setIP() throws IOException {
 		URL url = new URL("http://bot.whatismyipaddress.com");
 		BufferedReader readUrl = 
 				new BufferedReader(new InputStreamReader(url.openStream()));
@@ -42,6 +47,10 @@ public class UserLocation {
 	
 	public String getCity() {
 		return city;
+	}
+	
+	public String getState() {
+		return state;
 	}
 	
 	public String getCountry() {
