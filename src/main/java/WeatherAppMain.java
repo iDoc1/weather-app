@@ -80,13 +80,12 @@ public class WeatherAppMain {
 						String location2, String weatherFormat) 
 							throws UnirestException, ParseException {
 		
-		CurrWeather current = new CurrWeather(location1, location2);
-		Forecast forecast = new Forecast(location1, location2);
+		Weather weather = new Weather(location1, location2);
 		
-		if (weatherFormat.equals("1") && current.getStatus() == 200) {			
-			System.out.println(current.toString());
-		} else if (weatherFormat.equals("2") && forecast.getStatus() == 200) {				
-			System.out.println(forecast.toString());
+		if (weatherFormat.equals("1") && weather.getStatus() == 200) {			
+			System.out.println(weather.toString());
+		} else if (weatherFormat.equals("2") && weather.getStatus() == 200) {				
+			System.out.println(weather.toString());
 		} else {
 			System.out.println();
 			System.out.println("Location not found");

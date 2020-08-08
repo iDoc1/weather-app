@@ -7,13 +7,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import kong.unirest.HttpResponse;
+//import kong.unirest.HttpResponse;
 
 public class Forecast {
 	private String location;
 	private String city;
 	private ForecastDay[] forecastArray;
-	private HttpResponse<String> weatherForecast;
+	private String weatherForecast;
 	private int apiStatus;
 	
 	public Forecast(String location1, String location2) 
@@ -23,8 +23,8 @@ public class Forecast {
 		city = setCityName(location1);
 		
 		WeatherResponse forecastResponse = new WeatherResponse(location);
-		weatherForecast = forecastResponse.getForecastWeather();
-		apiStatus = weatherForecast.getStatus();
+		weatherForecast = forecastResponse.getWeather();
+		apiStatus = forecastResponse.getStatus();
 		
 		forecastArray = new ForecastDay[8];
 		setForecastArray("daily");		
@@ -37,15 +37,15 @@ public class Forecast {
 		if (apiStatus == 200) {
 		
 			JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherForecast.getBody());
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherForecast);
 			
 			JSONArray jsonArray = (JSONArray) jsonObject.get(key);			
 			Iterator<JSONObject> itr = jsonArray.iterator();
 			
 			int index = 0;
 			while (itr.hasNext()) {
-				JSONObject object = itr.next();
-				forecastArray[index] = new ForecastDay(object);	//creates new ForecastDay object in forecast day array	
+				String singleDay = itr.next().toString();
+				forecastArray[index] = new ForecastDay(singleDay);	//creates new ForecastDay object in forecast day array	
 				index++;
 			}
 			

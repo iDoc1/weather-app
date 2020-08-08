@@ -3,9 +3,12 @@ import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 public class ForecastDay {	
+
 	private String tempMax;
 	private String tempMin;
 	private String humidity;
@@ -13,10 +16,12 @@ public class ForecastDay {
 	private String precipType;
 	private String precipAmount;
 	private String description;
-	private JSONObject dailyWeather;
+	private String dailyWeather;
 	
-	public ForecastDay(JSONObject weatherData) {
-		dailyWeather = weatherData;
+	public ForecastDay(String dayWeather) 
+			throws ParseException {
+		
+		dailyWeather = dayWeather;
 		
 		tempMax = parseJson("temp", "max");
 		tempMin = parseJson("temp", "min");
@@ -27,20 +32,28 @@ public class ForecastDay {
 	}
 	
 	//parse dayWeather JSONObject to find value of given key
-	public String parseJson(String key1, String key2) {		
+	public String parseJson(String key1, String key2) 
+			throws ParseException {		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(dailyWeather);
 		
 		if (key2 == null) {
-			return dailyWeather.get(key1).toString();
+			return jsonObject.get(key1).toString();
 		} else {
-			JSONObject object = (JSONObject) dailyWeather.get(key1);
+			JSONObject object = (JSONObject) jsonObject.get(key1);
 			return object.get(key2).toString();
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String parseJsonArray(String key1, String key2) {
+	public String parseJsonArray(String key1, String key2) 
+			throws ParseException {
 		
-		JSONArray jsonArray = (JSONArray) dailyWeather.get(key1);
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(dailyWeather);
+		
+		JSONArray jsonArray = (JSONArray) jsonObject.get(key1);
 		Iterator<JSONObject> itr = jsonArray.iterator();
 		String result = "";
 		
@@ -52,13 +65,18 @@ public class ForecastDay {
 		return result;	
 	}
 	
-	public void setPrecip() {
-		if (dailyWeather.containsKey("rain")) {
+	public void setPrecip() 
+			throws ParseException {
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(dailyWeather);
+		
+		if (jsonObject.containsKey("rain")) {
 			precipType = "rain";
-			precipAmount = dailyWeather.get("rain").toString();
-		} else if (dailyWeather.containsKey("snow")) {
+			precipAmount = jsonObject.get("rain").toString();
+		} else if (jsonObject.containsKey("snow")) {
 			precipType = "snow";
-			precipAmount = dailyWeather.get("snow").toString();
+			precipAmount = jsonObject.get("snow").toString();
 		} else {
 			precipType = "no precip expected";
 			precipAmount = "0";
