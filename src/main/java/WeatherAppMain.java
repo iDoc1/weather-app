@@ -70,14 +70,13 @@ public class WeatherAppMain {
 
 	}
 	
-	/**
-	 * Prints weather data using the city and state/country name as parameters
+	/* Prints weather data using the city and state/country name as parameters
 	 * and calling the CurrWeather or Forecast class depending on which 
 	 * option the user chose
 	 */
 	public static void printWeatherData(String location1, 
 						String location2, String weatherFormat) 
-							throws UnirestException, ParseException {
+							throws UnirestException, ParseException, FileNotFoundException {
 		
 		Weather weather = new Weather(location1, location2);
 		
@@ -92,13 +91,13 @@ public class WeatherAppMain {
 			
 	}
 	
-	/**Prompts user to enter state name and checks the Country_Names file
+	/* Prompts user to enter state name and checks the Country_Names file
 	 * to ensure that entered state name is valid
 	 */
 	public static String inputState(Scanner input) 
 			throws FileNotFoundException {
 		
-		Scanner fileInput = new Scanner(new File("src/main/resources/State_Names.txt"));		
+		Scanner fileInput = new Scanner(new File("src/main/resources/STATE_NAMES.txt"));		
 		ArrayList<String> stateNames = new ArrayList<String>();
 		
 		while (fileInput.hasNext()) {
@@ -118,13 +117,13 @@ public class WeatherAppMain {
 		return state + ",us";
 	}
 	
-	/**Prompts user to enter country name and checks the Country_Names file
+	/* Prompts user to enter country name and checks the Country_Names file
 	 * to ensure that entered country name is valid
 	 */
 	public static String inputCountry(Scanner input) 
 			throws FileNotFoundException {
 		
-		Scanner fileInput = new Scanner(new File("src/main/resources/Country_Names.txt"));		
+		Scanner fileInput = new Scanner(new File("src/main/resources/COUNTRY_NAMES.txt"));		
 		ArrayList<String> countryNames = new ArrayList<String>();
 		
 		while (fileInput.hasNext()) {

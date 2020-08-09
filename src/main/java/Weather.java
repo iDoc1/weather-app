@@ -3,6 +3,7 @@
  * current weather and 7 day forecast weather information.
  */
 
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -24,7 +25,7 @@ public class Weather {
 	private int responseStatus;
 	
 	public Weather(String location1, String location2) 
-			throws UnirestException, ParseException {
+			throws UnirestException, ParseException, FileNotFoundException {
 		
 		location = location1 + "," + location2;
 		city = setCityName(location1);

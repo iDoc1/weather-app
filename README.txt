@@ -5,7 +5,7 @@ Before running this app ensure that you have obtained a free API key from OpenWe
 Website link here: https://openweathermap.org/api
 
 Copy your API key to the API_KEY.txt document in the src/main/resources folder. Enter
-key in the following format API_KEY : {past key here} . Once copied to this file the 
+key in the following format API_KEY: {past key here} . Once copied to this file the 
 program should function normally.
 
 In order to run the App you must have Apache Maven installed, or you must download the class

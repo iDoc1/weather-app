@@ -4,6 +4,11 @@
  * weather data in JSON format. 
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
 import org.json.simple.parser.ParseException;
 
 import kong.unirest.HttpResponse;
@@ -13,13 +18,15 @@ import kong.unirest.UnirestException;
 public class WeatherResponse {
 
 	private HttpResponse<String> apiWeather;
+	private String apiKey;
 	private static final String url = "https://api.openweathermap.org/data/2.5/onecall";
-	private static final String apiKey = "98b9c50a1756b6f643df39a665fcf18b";
 	
 	public WeatherResponse(String location) 
-			throws UnirestException, ParseException {
+			throws UnirestException, ParseException, FileNotFoundException {
 		
+		apiKey = getApiKey();
 		apiWeather = callWeather(location);
+		
 	}
 	
 	/* This method calls first calls a Geocode class to get latitude and longitude
@@ -45,8 +52,22 @@ public class WeatherResponse {
 		return response;
 	}
 	
-	private getApiKey( ) {
-		//get API key from API_KEY folder
+	private String getApiKey() throws FileNotFoundException {
+		Scanner fileInput = new Scanner(new File("src/main/resources/API_KEY.txt"));
+		
+		String key = "";
+		while (fileInput.hasNext()) {
+			if (fileInput.next().equals("API_KEY:")) {
+				
+				if (!fileInput.hasNext()) {
+					throw new NoSuchElementException("No API key entered");
+				} else {
+					key =  fileInput.next();
+				}
+			}
+		}
+		
+		return key;
 	}
 		
 	public String getWeather(){
