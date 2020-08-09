@@ -1,3 +1,8 @@
+/*
+ * This class utilizes the OpenWeatherMap "One Call" API. Data is requested
+ * by providing the API with geographic coordinates. The API responds with 
+ * weather data in JSON format. 
+ */
 
 import org.json.simple.parser.ParseException;
 
@@ -6,37 +11,30 @@ import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
 public class WeatherResponse {
-	//private HttpResponse<String> apiCurrWeather;
+
 	private HttpResponse<String> apiWeather;
-	private static final String urlCurrent = "http://api.openweathermap.org/data/2.5/weather";
-	private static final String urlForecast = "https://api.openweathermap.org/data/2.5/onecall";
+	private static final String url = "https://api.openweathermap.org/data/2.5/onecall";
 	private static final String apiKey = "98b9c50a1756b6f643df39a665fcf18b";
 	
 	public WeatherResponse(String location) 
 			throws UnirestException, ParseException {
 		
-		//apiCurrWeather = callCurrentWeather(location);
 		apiWeather = callWeather(location);
 	}
-		
-	/*private HttpResponse<String> callCurrentWeather(String query) 
-			throws UnirestException {
-		
-		HttpResponse<String> response = Unirest.get(urlCurrent)
-				.queryString("q", query)
-				.queryString("appid", apiKey)
-				.queryString("units", "imperial")
-				.asString();
-		
-		return response;
-	}*/
 	
+	/* This method calls first calls a Geocode class to get latitude and longitude
+	 * for a given location, then calls the OpenWeatherMap API to obtain 7 day 
+	 * forecast and current weather. 
+	 */
 	private HttpResponse<String> callWeather(String query) 
 		throws UnirestException, ParseException {
 
 		Geocode coords = new Geocode(query);
 		
-		HttpResponse<String> response = Unirest.get(urlForecast)
+		/* Constructs an HttpResponse object using the Unirest library and the
+		 * OpenWeatherMap API
+		 */
+		HttpResponse<String> response = Unirest.get(url)
 				.queryString("lat", coords.getLat())
 				.queryString("lon", coords.getLon())
 				.queryString("exclude", "hourly,minutely")
@@ -47,13 +45,9 @@ public class WeatherResponse {
 		return response;
 	}
 	
-	/*public String getCurrentWeather() {
-		return apiCurrWeather.getBody();
+	private getApiKey( ) {
+		//get API key from API_KEY folder
 	}
-	
-	public int getCurrStatus() {
-		return apiCurrWeather.getStatus();
-	}*/
 		
 	public String getWeather(){
 		return apiWeather.getBody();

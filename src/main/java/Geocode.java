@@ -1,5 +1,4 @@
-/*
- * This class uses the OpenWeatherMap Current Weather API to find latitude
+/* This class uses the OpenWeatherMap Current Weather API to find latitude
  * and longitude given a specific city name. Most Geocoding API's cost $$. This
  * class serves as a workaround by using OpenWeatherMap's current weather response, 
  * but only provides geographic coordinates accurate to two decimal places. 
@@ -17,7 +16,7 @@ public class Geocode {
 	private String lon;
 	private static final String url = "https://api.openweathermap.org/data/2.5/weather";
 	private static final String apiKey = "98b9c50a1756b6f643df39a665fcf18b";
-	
+	//NEED TO HIDE KEY
 	public Geocode(String location) 
 			throws ParseException {
 		

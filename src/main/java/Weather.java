@@ -1,3 +1,8 @@
+/* This class accepts a location as a constructor parameter. When constructed, 
+ * this class will construct two additional objects that store and return 
+ * current weather and 7 day forecast weather information.
+ */
+
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -10,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import kong.unirest.UnirestException;
 
 public class Weather {
+	
 	private String location;
 	private String city;
 	private CurrWeather currWeather;
@@ -22,7 +28,8 @@ public class Weather {
 		
 		location = location1 + "," + location2;
 		city = setCityName(location1);
-			
+		
+		//Constructs WeatherResponse class to obtain weather data from API
 		WeatherResponse response = new WeatherResponse(location);
 		weatherResponse = response.getWeather();
 		responseStatus = response.getStatus();
@@ -31,33 +38,47 @@ public class Weather {
 		setForecast();
 	}
 	
-	private void setCurrWeather() 
-			throws ParseException {
+	/* Constructs an object that will store and return information about the 
+	 * current weather. 
+	 */
+	private void setCurrWeather() throws ParseException {
 		
+		//Checks if API response is valid to avoid exceptions
 		if (responseStatus == 200) {
 			
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherResponse);
 			
+			//Gets "current" weather data from JSON object
 			String weather = jsonObject.get("current").toString();
 			currWeather = new CurrWeather(weather);			
 		}
 		
 	}
 	
-	private void setForecast() 
-			throws ParseException {
+	/* Constructs an object that will store and return information about the
+	 * weather forecast for the next 7 days.
+	 */
+	@SuppressWarnings("unchecked")
+	private void setForecast() throws ParseException {
 		
+		/* Initializes array to size 8 since the weather forecast includes 8 
+		 * days (current day and 7 forecast days)
+		 */
 		forecastArray = new ForecastDay[8];
 		
+		//Checks if API response is valid to avoid exceptions
 		if (responseStatus == 200) {
 			
+			//Constructs JSON objects from the json-simple library to parse JSON Strings
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherResponse);
 			
+			//Gets "daily" forecast weather data from JSON object
 			JSONArray jsonArray = (JSONArray) jsonObject.get("daily");			
 			Iterator<JSONObject> itr = jsonArray.iterator();
 			
+			//Stores a Forecast day
 			int index = 0;
 			while (itr.hasNext()) {
 				String weather = itr.next().toString();
@@ -69,6 +90,10 @@ public class Weather {
 		
 	}
 	
+	/* Formats the chosen city name so that it follows proper syntax for nouns.
+	 * For example, "SAlt LakE citY" will be returned as "Salt Lake City".
+	 */
+	@SuppressWarnings("resource")
 	public String setCityName(String cityName) {		
 		Scanner name = new Scanner(cityName);
 		String result = "";
@@ -82,15 +107,18 @@ public class Weather {
 		return result;
 	}
 	
+	//Returns String containing current weather information.
 	public String currentToString() {
-		return currWeather.toString();
+		return "\t" + "Location: " + city + "\n" + currWeather.toString();
 	}
 	
+	//Returns String containing 7 day forecast weather information.
 	public String forecastToString() {
+		
+		//Uses Java Calendar class to get current date to display in forecast String
 		Calendar cal = Calendar.getInstance();
 		
-		String result = "\t" + "Location: " + city + "\n" + "\n";
-		result += "\t" + "Today:" + "\n" + forecastArray[0].toString() + "\n";	
+		String result = "\t" + "Today:" + "\n" + forecastArray[0].toString() + "\n";	
 		
 		for (int i = 1; i < forecastArray.length; i++) {
 			cal.add(Calendar.DATE, 1);
@@ -99,14 +127,12 @@ public class Weather {
 			result += "\t" + date + ": " + "\n" + forecastArray[i].toString() + "\n";
 		}
 		
-		return result;
+		return "\t" + "Location: " + city + "\n" + "\n" + result;
 	}
 	
-	public String toString() {
-		return currentToString() + "\n" + forecastArray.toString();
-	}
-	
+	//Returns numerical API status 
 	public int getStatus() {
 		return responseStatus;
 	}
+	
 }

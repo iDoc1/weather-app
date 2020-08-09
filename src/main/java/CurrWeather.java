@@ -1,4 +1,6 @@
-
+/* This class accepts a JSON formatted String as a parameter and parses the String
+ * so the client program can obtain current weather information. 
+ */
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -27,8 +29,7 @@ public class CurrWeather {
 		description = parseJsonArray("weather", "description");
 	}
 	
-	/**
-	 * This method parses the JSON formatted String output by the WeatherClient class
+	/* This method parses the JSON formatted String from by the Weather Response class
 	 * and returns a String signifying the value of the given key(s)
 	 */
 	private String parseJson(String key1, String key2) 
@@ -86,7 +87,7 @@ public class CurrWeather {
 	}
 	
 	public String toString() {		
-		return "\t" +  "Current Temp: " + temp + "\u00B0F" + "\n"
+		return "\t" +  "Temperature: " + temp + "\u00B0F" + "\n"
 				+ "\t" + "Wind speed: " + windSpeed + " mph" + "\n"
 				+ "\t" + "Humidity: " + humidity + "%" + "\n"
 				+ "\t" + "Description: " + description;

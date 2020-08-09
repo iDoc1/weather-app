@@ -16,10 +16,9 @@ public class WeatherAppMain {
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println("Choose an option:");
-		System.out.println("Option 1: current weather");
-		System.out.println("Option 2: 7 day forecast");
+		System.out.println("Option 1: Current Weather");
+		System.out.println("Option 2: 7 Day Forecast");
 		System.out.print("Type an option number: ");
-		//add a both option??
 		
 		String weatherFormat = input.nextLine();
 		
@@ -83,9 +82,9 @@ public class WeatherAppMain {
 		Weather weather = new Weather(location1, location2);
 		
 		if (weatherFormat.equals("1") && weather.getStatus() == 200) {			
-			System.out.println(weather.toString());
+			System.out.println(weather.currentToString());
 		} else if (weatherFormat.equals("2") && weather.getStatus() == 200) {				
-			System.out.println(weather.toString());
+			System.out.println(weather.forecastToString());
 		} else {
 			System.out.println();
 			System.out.println("Location not found");
@@ -145,12 +144,4 @@ public class WeatherAppMain {
 		return country;
 	}
 	
-
-	
-	
-	
-	
-	
-
-
 }
