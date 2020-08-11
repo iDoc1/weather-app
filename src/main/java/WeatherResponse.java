@@ -1,5 +1,4 @@
-/*
- * This class utilizes the OpenWeatherMap "One Call" API. Data is requested
+/* This class utilizes the OpenWeatherMap "One Call" API. Data is requested
  * by providing the API with geographic coordinates. The API responds with 
  * weather data in JSON format. 
  */
@@ -19,7 +18,8 @@ public class WeatherResponse {
 
 	private HttpResponse<String> apiWeather;
 	private String apiKey;
-	private static final String url = "https://api.openweathermap.org/data/2.5/onecall";
+	private static final String url 
+			= "https://api.openweathermap.org/data/2.5/onecall";
 	
 	public WeatherResponse(String location) 
 			throws UnirestException, ParseException, FileNotFoundException {
@@ -29,17 +29,18 @@ public class WeatherResponse {
 		
 	}
 	
-	/* This method calls first calls a Geocode class to get latitude and longitude
-	 * for a given location, then calls the OpenWeatherMap API to obtain 7 day 
-	 * forecast and current weather. 
+	/* This method calls first calls a Geocode class to get latitude and 
+	 * longitude for a given location, then calls the OpenWeatherMap API to 
+	 * obtain 7 day forecast and current weather. 
 	 */
 	private HttpResponse<String> callWeather(String query) 
-		throws UnirestException, ParseException {
-
+		throws UnirestException, ParseException, FileNotFoundException {
+		
+		//Contructs object that can return coordinates of given location query
 		Geocode coords = new Geocode(query);
 		
 		/* Constructs an HttpResponse object using the Unirest library and the
-		 * OpenWeatherMap API
+		 * OpenWeatherMap API.
 		 */
 		HttpResponse<String> response = Unirest.get(url)
 				.queryString("lat", coords.getLat())
@@ -52,18 +53,26 @@ public class WeatherResponse {
 		return response;
 	}
 	
+	
+	/* Pulls API key from API_KEY resource file for use with the 
+	 * OpenWeatherMap API.
+	 */
 	private String getApiKey() throws FileNotFoundException {
-		Scanner fileInput = new Scanner(new File("src/main/resources/API_KEY.txt"));
+		Scanner fileInput = new Scanner(
+				new File("src/main/resources/API_KEY.txt"));
 		
 		String key = "";
 		while (fileInput.hasNext()) {
 			if (fileInput.next().equals("API_KEY:")) {
-				
-				if (!fileInput.hasNext()) {
-					throw new NoSuchElementException("No API key entered");
-				} else {
+			
+				try {
 					key =  fileInput.next();
+				} 
+				catch (NoSuchElementException ex) {
+					System.out.println(
+							ex + ": No API key found. See README doc.");
 				}
+ 
 			}
 		}
 		

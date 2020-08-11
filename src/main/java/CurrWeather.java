@@ -1,6 +1,7 @@
-/* This class accepts a JSON formatted String as a parameter and parses the String
- * so the client program can obtain current weather information. 
+/* This class accepts a JSON formatted String as a parameter and parses the 
+ * String so the client program can obtain current weather information. 
  */
+
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -29,15 +30,16 @@ public class CurrWeather {
 		description = parseJsonArray("weather", "description");
 	}
 	
-	/* This method parses the JSON formatted String from by the Weather Response class
-	 * and returns a String signifying the value of the given key(s)
-	 */
+	/* Parses dayWeather JSONObject to find value of given key using the JSON
+	 * String output by the WeatherResponse class.
+	 */	
 	private String parseJson(String key1, String key2) 
 			throws ParseException {
 
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = (JSONObject) jsonParser.parse(currWeather);
 		
+		//IF statements account for JSON values that have either 1 or 2 keys
 		if (key2 == null) {
 			return jsonObject.get(key1).toString();
 		} else {
@@ -46,11 +48,9 @@ public class CurrWeather {
 		}
 	}
 	
-	/**
-	 * /**
-	 * This method parses the JSON formatted array output by the WeatherClient
-	 * and returns a String signifying the value of the given keys
-	 */
+	/* Parses the JSON array to find the value of the given key pairs using the
+	 * JSON String passed by the WeatherResponse class.
+	 */	
 	@SuppressWarnings("unchecked")
 	private String parseJsonArray(String key1, String key2) 
 			throws ParseException {

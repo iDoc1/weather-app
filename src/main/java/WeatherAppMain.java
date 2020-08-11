@@ -1,3 +1,9 @@
+/* This class prompts the user in the console for information about how they 
+ * would like to view weather information (current or forecast) then asks the 
+ * user to enter a specific location for which they would like to view the 
+ * weather. The requested weather is then printed in the console.
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,7 +46,7 @@ public class WeatherAppMain {
 		while (!locationFormat.equals("1") && 
 				!locationFormat.equals("2") && !locationFormat.equals("3")) {
 			System.out.println();
-			System.out.print("Invalid input. Type an option number:");
+			System.out.print("Invalid input. Type an option number: ");
 			locationFormat = input.nextLine();
 		}
 		
@@ -52,11 +58,11 @@ public class WeatherAppMain {
 			
 			if (locationFormat.equals("1")) {
 				String state = inputState(input);
-								
+				System.out.println();				
 				printWeatherData(city, state, weatherFormat);
 			} else {
 				String country = inputCountry(input);
-				
+				System.out.println();
 				printWeatherData(city, country, weatherFormat);	
 			}
 			
@@ -65,18 +71,19 @@ public class WeatherAppMain {
 			System.out.println("\tIP address: " + currLocation.getIpAdress());
 			
 			printWeatherData(currLocation.getCity(), 
-				currLocation.getState() + "," + currLocation.getCountry(), weatherFormat);			
+				currLocation.getState() + "," 
+						+ currLocation.getCountry(), weatherFormat);			
 		}
 
 	}
 	
 	/* Prints weather data using the city and state/country name as parameters
 	 * and calling the CurrWeather or Forecast class depending on which 
-	 * option the user chose
+	 * option the user chose.
 	 */
 	public static void printWeatherData(String location1, 
-						String location2, String weatherFormat) 
-							throws UnirestException, ParseException, FileNotFoundException {
+			String location2, String weatherFormat) 
+				throws UnirestException, ParseException, FileNotFoundException {
 		
 		Weather weather = new Weather(location1, location2);
 		
@@ -92,14 +99,17 @@ public class WeatherAppMain {
 	}
 	
 	/* Prompts user to enter state name and checks the Country_Names file
-	 * to ensure that entered state name is valid
+	 * to ensure that entered state name is valid.
 	 */
 	public static String inputState(Scanner input) 
 			throws FileNotFoundException {
 		
-		Scanner fileInput = new Scanner(new File("src/main/resources/STATE_NAMES.txt"));		
+		//Creates a Scanner object using the specified file
+		Scanner fileInput = new Scanner(
+				new File("src/main/resources/STATE_NAMES.txt"));		
 		ArrayList<String> stateNames = new ArrayList<String>();
 		
+		//Stores all state names in an array
 		while (fileInput.hasNext()) {
 			stateNames.add(fileInput.next().toLowerCase());
 		}
@@ -107,6 +117,7 @@ public class WeatherAppMain {
 		System.out.print("Enter US state name or symbol: ");
 		String state = input.nextLine();
 		
+		//Checks if user entered a valid state name using stateNames array
 		while (!stateNames.contains(state)) {
 			System.out.println("Not a valid US state name");
 			System.out.println();
@@ -118,14 +129,17 @@ public class WeatherAppMain {
 	}
 	
 	/* Prompts user to enter country name and checks the Country_Names file
-	 * to ensure that entered country name is valid
+	 * to ensure that entered country name is valid.
 	 */
 	public static String inputCountry(Scanner input) 
 			throws FileNotFoundException {
 		
-		Scanner fileInput = new Scanner(new File("src/main/resources/COUNTRY_NAMES.txt"));		
+		//Creates a Scanner object using the specified file
+		Scanner fileInput = new Scanner(
+				new File("src/main/resources/COUNTRY_NAMES.txt"));		
 		ArrayList<String> countryNames = new ArrayList<String>();
 		
+		//Stores all country names in an array
 		while (fileInput.hasNext()) {
 			countryNames.add(fileInput.next().toLowerCase());
 		}
@@ -133,6 +147,7 @@ public class WeatherAppMain {
 		System.out.print("Enter country name or symbol: ");
 		String country = input.nextLine();
 		
+		//Checks if user entered a valid country name using countryNames array
 		while (!countryNames.contains(country)) {
 			System.out.println("Not a valid country name");
 			System.out.println();

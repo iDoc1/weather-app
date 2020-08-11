@@ -1,3 +1,8 @@
+/* This class takes a String in JSON format as a parameter, then parses the
+ * string and returns the weather data contained in the String. The input
+ * constructor parameter must be in JSON format and should contain weather
+ * data for a single day in the forecast.
+ */
 
 import java.util.Iterator;
 
@@ -5,7 +10,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 
 public class ForecastDay {	
 
@@ -16,12 +20,13 @@ public class ForecastDay {
 	private String precipType;
 	private String precipAmount;
 	private String description;
-	private String dailyWeather;
+	private String dayWeather;
 	
+	//Parameter contains weather data for a single day in the forecast.
 	public ForecastDay(String dayWeather) 
 			throws ParseException {
 		
-		dailyWeather = dayWeather;
+		this.dayWeather = dayWeather;
 		
 		tempMax = parseJson("temp", "max");
 		tempMin = parseJson("temp", "min");
@@ -31,13 +36,16 @@ public class ForecastDay {
 		description = parseJsonArray("weather", "description");		
 	}
 	
-	//parse dayWeather JSONObject to find value of given key
+	/* Parses dayWeather JSONObject to find value of given key using the JSON
+	 * String output by the Forecast class.
+	 */	
 	public String parseJson(String key1, String key2) 
 			throws ParseException {		
 		
 		JSONParser jsonParser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) jsonParser.parse(dailyWeather);
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(dayWeather);
 		
+		//IF statements account for JSON values that have either 1 or 2 keys
 		if (key2 == null) {
 			return jsonObject.get(key1).toString();
 		} else {
@@ -46,12 +54,15 @@ public class ForecastDay {
 		}
 	}
 	
+	/* Parses the JSON array to find the value of the given key pairs using the
+	 * JSON String passed by the Forecast class.
+	 */	
 	@SuppressWarnings("unchecked")
 	public String parseJsonArray(String key1, String key2) 
 			throws ParseException {
 		
 		JSONParser jsonParser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) jsonParser.parse(dailyWeather);
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(dayWeather);
 		
 		JSONArray jsonArray = (JSONArray) jsonObject.get(key1);
 		Iterator<JSONObject> itr = jsonArray.iterator();
@@ -69,7 +80,7 @@ public class ForecastDay {
 			throws ParseException {
 		
 		JSONParser jsonParser = new JSONParser();
-		JSONObject jsonObject = (JSONObject) jsonParser.parse(dailyWeather);
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(dayWeather);
 		
 		if (jsonObject.containsKey("rain")) {
 			precipType = "rain";

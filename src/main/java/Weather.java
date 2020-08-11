@@ -48,7 +48,8 @@ public class Weather {
 		if (responseStatus == 200) {
 			
 			JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherResponse);
+			JSONObject jsonObject 
+					= (JSONObject) jsonParser.parse(weatherResponse);
 			
 			//Gets "current" weather data from JSON object
 			String weather = jsonObject.get("current").toString();
@@ -64,22 +65,23 @@ public class Weather {
 	private void setForecast() throws ParseException {
 		
 		/* Initializes array to size 8 since the weather forecast includes 8 
-		 * days (current day and 7 forecast days)
+		 * days (current day and 7 forecast days).
 		 */
 		forecastArray = new ForecastDay[8];
 		
 		//Checks if API response is valid to avoid exceptions
 		if (responseStatus == 200) {
 			
-			//Constructs JSON objects from the json-simple library to parse JSON Strings
+			//Constructs objects from json-simple library to parse JSON Strings
 			JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(weatherResponse);
+			JSONObject jsonObject 
+					= (JSONObject) jsonParser.parse(weatherResponse);
 			
-			//Gets "daily" forecast weather data from JSON object
+			//Gets "daily" forecast weather data from JSON object.
 			JSONArray jsonArray = (JSONArray) jsonObject.get("daily");			
 			Iterator<JSONObject> itr = jsonArray.iterator();
 			
-			//Stores a Forecast day
+			//Stores a Forecast day object in the array
 			int index = 0;
 			while (itr.hasNext()) {
 				String weather = itr.next().toString();
@@ -108,30 +110,32 @@ public class Weather {
 		return result;
 	}
 	
-	//Returns String containing current weather information.
+	//Returns String containing current weather information
 	public String currentToString() {
 		return "\t" + "Location: " + city + "\n" + currWeather.toString();
 	}
 	
-	//Returns String containing 7 day forecast weather information.
+	//Returns String containing 7 day forecast weather information
 	public String forecastToString() {
 		
-		//Uses Java Calendar class to get current date to display in forecast String
+		//Uses Java Calendar class to get current date
 		Calendar cal = Calendar.getInstance();
 		
-		String result = "\t" + "Today:" + "\n" + forecastArray[0].toString() + "\n";	
+		String result = "\t" + "Today:" + "\n" 
+				+ forecastArray[0].toString() + "\n";	
 		
 		for (int i = 1; i < forecastArray.length; i++) {
 			cal.add(Calendar.DATE, 1);
 			String date = cal.getTime().toString().substring(0, 10);
 			
-			result += "\t" + date + ": " + "\n" + forecastArray[i].toString() + "\n";
+			result += "\t" + date + ": " + "\n" 
+					+ forecastArray[i].toString() + "\n";
 		}
 		
 		return "\t" + "Location: " + city + "\n" + "\n" + result;
 	}
 	
-	//Returns numerical API status 
+	//Returns numerical API status
 	public int getStatus() {
 		return responseStatus;
 	}
