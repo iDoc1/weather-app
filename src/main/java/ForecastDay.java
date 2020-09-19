@@ -22,7 +22,7 @@ public class ForecastDay {
 	private String description;
 	private String dayWeather;
 	
-	//Parameter contains weather data for a single day in the forecast.
+	// Parameter contains weather data for a single day in the forecast.
 	public ForecastDay(String dayWeather) 
 			throws ParseException {
 		
@@ -45,7 +45,7 @@ public class ForecastDay {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = (JSONObject) jsonParser.parse(dayWeather);
 		
-		//IF statements account for JSON values that have either 1 or 2 keys
+		// If statements account for JSON values that have either 1 or 2 keys
 		if (key2 == null) {
 			return jsonObject.get(key1).toString();
 		} else {

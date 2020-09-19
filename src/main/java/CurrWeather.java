@@ -39,7 +39,7 @@ public class CurrWeather {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject = (JSONObject) jsonParser.parse(currWeather);
 		
-		//IF statements account for JSON values that have either 1 or 2 keys
+		// IF statements account for JSON values that have either 1 or 2 keys
 		if (key2 == null) {
 			return jsonObject.get(key1).toString();
 		} else {

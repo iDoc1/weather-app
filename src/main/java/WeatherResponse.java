@@ -19,7 +19,7 @@ public class WeatherResponse {
 	private HttpResponse<String> apiWeather;
 	private String apiKey;
 	private static final String url 
-			= "https://api.openweathermap.org/data/2.5/onecall";
+			= "https:// api.openweathermap.org/data/2.5/onecall";
 	
 	public WeatherResponse(String location) 
 			throws UnirestException, ParseException, FileNotFoundException {
@@ -36,7 +36,7 @@ public class WeatherResponse {
 	private HttpResponse<String> callWeather(String query) 
 		throws UnirestException, ParseException, FileNotFoundException {
 		
-		//Contructs object that can return coordinates of given location query
+		// Constructs object that can return coordinates of given location query
 		Geocode coords = new Geocode(query);
 		
 		/* Constructs an HttpResponse object using the Unirest library and the

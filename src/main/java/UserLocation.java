@@ -34,7 +34,7 @@ public class UserLocation {
 		
 		HttpResponse<String> response = 
 				Unirest.get(
-						"https://ipapi.co/" + ipAddress + "/json/").asString();
+						"https:// ipapi.co/" + ipAddress + "/json/").asString();
 		
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObject 
@@ -45,11 +45,11 @@ public class UserLocation {
 		country = jsonObject.get("country").toString();
 	}
 	
-	//Sets the IP field to the users current IPv6 IP address
+	// Sets the IP field to the users current IPv6 IP address
 	private String setIP() 
 			throws IOException {
 		
-		URL url = new URL("http://bot.whatismyipaddress.com");
+		URL url = new URL("http:// bot.whatismyipaddress.com");
 		BufferedReader readUrl 
 				= new BufferedReader(new InputStreamReader(url.openStream()));
 		

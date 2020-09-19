@@ -104,12 +104,12 @@ public class WeatherAppMain {
 	public static String inputState(Scanner input) 
 			throws FileNotFoundException {
 		
-		//Creates a Scanner object using the specified file
+		// Creates a Scanner object using the specified file
 		Scanner fileInput = new Scanner(
 				new File("src/main/resources/STATE_NAMES.txt"));		
 		ArrayList<String> stateNames = new ArrayList<String>();
 		
-		//Stores all state names in an array
+		// Stores all state names in an array
 		while (fileInput.hasNext()) {
 			stateNames.add(fileInput.next().toLowerCase());
 		}
@@ -117,7 +117,7 @@ public class WeatherAppMain {
 		System.out.print("Enter US state name or symbol: ");
 		String state = input.nextLine();
 		
-		//Checks if user entered a valid state name using stateNames array
+		// Checks if user entered a valid state name using stateNames array
 		while (!stateNames.contains(state)) {
 			System.out.println("Not a valid US state name");
 			System.out.println();
@@ -134,12 +134,12 @@ public class WeatherAppMain {
 	public static String inputCountry(Scanner input) 
 			throws FileNotFoundException {
 		
-		//Creates a Scanner object using the specified file
+		// Creates a Scanner object using the specified file
 		Scanner fileInput = new Scanner(
 				new File("src/main/resources/COUNTRY_NAMES.txt"));		
 		ArrayList<String> countryNames = new ArrayList<String>();
 		
-		//Stores all country names in an array
+		// Stores all country names in an array
 		while (fileInput.hasNext()) {
 			countryNames.add(fileInput.next().toLowerCase());
 		}
@@ -147,7 +147,7 @@ public class WeatherAppMain {
 		System.out.print("Enter country name or symbol: ");
 		String country = input.nextLine();
 		
-		//Checks if user entered a valid country name using countryNames array
+		// Checks if user entered a valid country name using countryNames array
 		while (!countryNames.contains(country)) {
 			System.out.println("Not a valid country name");
 			System.out.println();
