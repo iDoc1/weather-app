@@ -18,7 +18,10 @@ public class WeatherAppMain {
 
 	public static void main(String[] args) 
 			throws IOException, ParseException {
-		
+
+		//System.out.println("Test");
+		//Geocode geo = new Geocode("Seattle, WA");
+
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println("Choose an option:");

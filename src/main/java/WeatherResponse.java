@@ -19,7 +19,7 @@ public class WeatherResponse {
 	private HttpResponse<String> apiWeather;
 	private String apiKey;
 	private static final String url 
-			= "https:// api.openweathermap.org/data/2.5/onecall";
+			= "https://api.openweathermap.org/data/2.5/onecall";
 	
 	public WeatherResponse(String location) 
 			throws UnirestException, ParseException, FileNotFoundException {

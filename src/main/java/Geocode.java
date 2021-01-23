@@ -22,7 +22,7 @@ public class Geocode {
 	private String lon;
 	private String apiKey;
 	private static final String url 
-			= "https:// api.openweathermap.org/data/2.5/weather";
+			= "https://api.openweathermap.org/data/2.5/weather";
 	
 	public Geocode(String location) 
 			throws ParseException, FileNotFoundException {
