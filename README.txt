@@ -17,7 +17,7 @@ OpenWeatherMap API to obtain weather data.
 HOW TO RUN PROGRAM:
 To run this Weather App execute the WeatherAppMain class and follow the prompts 
 to see current weather and 7 day forecast weather for a specific location. The 
-location can eitherbe a city that you specify or your current location based on 
+location can either be a city that you specify or your current location based on 
 your IP address.
 
 
